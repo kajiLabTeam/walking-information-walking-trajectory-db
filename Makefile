@@ -3,7 +3,7 @@
 up:
 	docker compose build && docker compose up -d && docker compose logs -f
 
-db:
+db-login:
 	docker exec -it $(DB_HOST) psql -U $(DB_USER) -d $(DB_NAME)
 
 logs:

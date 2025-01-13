@@ -47,7 +47,7 @@ CREATE TABLE trajectories (
     , is_walking BOOLEAN NOT NULL
     , created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     , pedestrian_id VARCHAR(26) REFERENCES pedestrians (id)
-    , floor_information_id VARCHAR(26) REFERENCES floor_information (id)
+    , floor_id VARCHAR(26) REFERENCES floors (id)
 );
 
 CREATE TABLE correct_positions (
