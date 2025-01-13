@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<database name="indoor_location_estimation" schema="public" type="PostgreSQL - 17.2 (Debian 17.2-1.pgdg120+1)">
+   <sequences>
+      <sequence increment="1" name="coordinate_information_coordinate_id_seq" startValue="1"/>
+      <sequence increment="1" name="coordinates_id_seq" startValue="1"/>
+   </sequences>
+   <tables>
+      <table name="buildings" numRows="2" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="26" type="varchar" typeCode="12">
+            <child column="building_id" foreignKey="floors_building_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="floors"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="name" nullable="false" remarks="" size="255" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="17" id="2" name="latitude" nullable="false" remarks="" size="17" type="float8" typeCode="8"/>
+         <column autoUpdated="false" defaultValue="null" digits="17" id="3" name="longitude" nullable="false" remarks="" size="17" type="float8" typeCode="8"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="6" id="4" name="created_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="6" id="5" name="updated_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="6" name="deleted_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="buildings_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="coordinate_information" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="26" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="6" id="1" name="created_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="6" id="2" name="updated_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="true" defaultValue="nextval('coordinate_information_coordinate_id_seq'::regclass)" digits="0" id="3" name="coordinate_id" nullable="false" remarks="" size="10" type="serial" typeCode="4">
+            <parent column="id" foreignKey="coordinate_information_coordinate_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="coordinates"/>
+         </column>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="coordinate_information_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="coordinates" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('coordinates_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4">
+            <child column="coordinate_id" foreignKey="coordinate_information_coordinate_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="coordinate_information"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="x" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="y" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="is_walkable" nullable="false" remarks="" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="6" id="4" name="created_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="6" id="5" name="updated_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="floor_id" nullable="true" remarks="" size="26" type="varchar" typeCode="12">
+            <parent column="id" foreignKey="coordinates_floor_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="floors"/>
+         </column>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="coordinates_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="correct_positions" numRows="201" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="26" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="x" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="y" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="direction" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="6" id="4" name="created_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="trajectory_id" nullable="true" remarks="" size="26" type="varchar" typeCode="12">
+            <parent column="id" foreignKey="correct_positions_trajectory_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="trajectories"/>
+         </column>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="correct_positions_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="estimated_positions" numRows="201" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="26" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="x" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="y" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="is_converged" nullable="false" remarks="" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="direction" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="6" id="5" name="created_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="trajectory_id" nullable="true" remarks="" size="26" type="varchar" typeCode="12">
+            <parent column="id" foreignKey="estimated_positions_trajectory_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="trajectories"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="walking_information_id" nullable="true" remarks="" size="26" type="varchar" typeCode="12">
+            <parent column="id" foreignKey="estimated_positions_walking_information_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="walking_information"/>
+         </column>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="estimated_positions_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="floor_information" numRows="2" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="26" type="varchar" typeCode="12">
+            <child column="floor_information_id" foreignKey="trajectories_floor_information_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="trajectories"/>
+         </column>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="6" id="1" name="created_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="floor_id" nullable="true" remarks="" size="26" type="varchar" typeCode="12">
+            <parent column="id" foreignKey="floor_information_floor_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="floors"/>
+         </column>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="floor_information_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="floors" numRows="2" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="26" type="varchar" typeCode="12">
+            <child column="floor_id" foreignKey="coordinates_floor_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="coordinates"/>
+            <child column="floor_id" foreignKey="floor_information_floor_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="floor_information"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="level" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="name" nullable="false" remarks="" size="255" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="6" id="3" name="created_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="6" id="4" name="updated_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="5" name="deleted_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="building_id" nullable="true" remarks="" size="26" type="varchar" typeCode="12">
+            <parent column="id" foreignKey="floors_building_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="buildings"/>
+         </column>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="floors_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="pedestrians" numRows="1" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="26" type="varchar" typeCode="12">
+            <child column="pedestrian_id" foreignKey="trajectories_pedestrian_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="trajectories"/>
+            <child column="pedestrian_id" foreignKey="walking_information_pedestrian_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="walking_information"/>
+         </column>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="6" id="1" name="created_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="6" id="2" name="updated_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="3" name="deleted_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="pedestrians_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="trajectories" numRows="1" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="26" type="varchar" typeCode="12">
+            <child column="trajectory_id" foreignKey="correct_positions_trajectory_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="correct_positions"/>
+            <child column="trajectory_id" foreignKey="estimated_positions_trajectory_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="estimated_positions"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="is_walking" nullable="false" remarks="" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="6" id="2" name="created_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="pedestrian_id" nullable="true" remarks="" size="26" type="varchar" typeCode="12">
+            <parent column="id" foreignKey="trajectories_pedestrian_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="pedestrians"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="floor_information_id" nullable="true" remarks="" size="26" type="varchar" typeCode="12">
+            <parent column="id" foreignKey="trajectories_floor_information_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="floor_information"/>
+         </column>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="trajectories_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="walking_information" numRows="1" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="26" type="varchar" typeCode="12">
+            <child column="walking_information_id" foreignKey="estimated_positions_walking_information_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="estimated_positions"/>
+         </column>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="6" id="1" name="created_at" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="pedestrian_id" nullable="true" remarks="" size="26" type="varchar" typeCode="12">
+            <parent column="id" foreignKey="walking_information_pedestrian_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="pedestrians"/>
+         </column>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="walking_information_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+   </tables>
+</database>

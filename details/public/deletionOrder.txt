@@ -1,0 +1,10 @@
+estimated_positions
+correct_positions
+coordinate_information
+walking_information
+coordinates
+trajectories
+floor_information
+floors
+buildings
+pedestrians

@@ -18,4 +18,4 @@ spy-up:
 	docker compose -f docker-compose-spy.yml up -d --build nginx_schemaspy
 
 format:
-	uv run sqlfluff lint && uv run sqlfluff format
+	uv run sqlfluff format && uv run sqlfluff lint
