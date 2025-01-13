@@ -7,7 +7,7 @@ services:
     image: schemaspy/schemaspy
     tty: true
     volumes:
-      - ./db/details:/output
+      - ./db/details:/db/details
       - ./docker/schemaspy/schemaspy.properties.template:/schemaspy.properties.template
       - ./docker/schemaspy/drivers/postgresql-42.6.0.jar:/drivers/postgresql.jar
     env_file:
@@ -21,9 +21,9 @@ services:
     depends_on:
       - spy
     ports:
-      - "8080:80"
+      - "8089:80"
     volumes:
-      - ./output:/usr/share/nginx/html
+      - ./db/details:/usr/share/nginx/html
     networks:
       - trajectory-storage-network
 
