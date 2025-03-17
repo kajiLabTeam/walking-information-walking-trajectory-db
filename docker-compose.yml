@@ -13,8 +13,8 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     networks:
-      - trajectory-storage-network
+      - walking-trajectory-storage-network
 
 networks:
-  trajectory-storage-network:
-    driver: bridge
+  walking-trajectory-storage-network:
+    external: true
