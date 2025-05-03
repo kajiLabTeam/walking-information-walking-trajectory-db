@@ -1,6 +1,6 @@
 services:
   postgres:
-    container_name: postgres
+    container_name: walking-information-walking-trajectory-storage-db
     build:
       context: .
       dockerfile: ./docker/postgres/Dockerfile
@@ -13,8 +13,8 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     networks:
-      - walking-trajectory-storage-network
+      - walking-information-walking-trajectory-storage-network
 
 networks:
-  walking-trajectory-storage-network:
+  walking-information-walking-trajectory-storage-network:
     external: true

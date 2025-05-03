@@ -1,5 +1,8 @@
 -include .env
 
+create-network:
+	docker network create $(NETWORK_NAME)
+
 up:
 	docker compose build && docker compose up -d && docker compose logs -f
 
