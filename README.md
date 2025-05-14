@@ -25,7 +25,25 @@ make up
 make db
 ```
 
-### DB 詳細を確認
+### その他
+
+#### DB に入るデータを確認する
+
+```
+cd src/walking-information-walking-trajectory-db
+```
+
+```
+make db-login
+```
+
+SQL を用いてデータを確認
+
+```sql
+SELECT * from estimated_positions;
+```
+
+#### DB 詳細を確認
 
 > [!NOTE]
 > 予め`DBコンテナの立ち上げ`を完了してから実行してください
@@ -34,7 +52,7 @@ make db
 make spy-up
 ```
 
-`http://localhost:8089/`にアクセする
+`http://localhost:8089/`にアクセスする
 
 ## ドキュメント
 
